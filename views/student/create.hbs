@@ -1,0 +1,50 @@
+<main class="main-content" style="margin-top: 80px">
+    <h3 class="align-center">Tạo thêm học sinh</h3>
+    <form class="mx-auto mt-3" action="/student/create" method="POST" style="max-width: 500px">
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="code-input">Mã Học Sinh</label>
+                <input type="number" class="form-control" id="code-input" name="MaSo" required>
+            </div>
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="name-input">Họ Tên</label>
+                <input type="text" class="form-control" id="name-input" name="HoTen" required>
+            </div>
+        </div>
+        <div class="form-row mb-2">
+            <div class="col-md-6">
+                <label for="birthday-input">Ngày Sinh</label>
+                <input type="date" class="form-control" id="birthday-input" name="NgaySinh" required>
+            </div>
+            <div class="col-md-6">
+                <label for="gender-input">Giới Tính</label>
+                <select class="custom-select" id="gender-input" name="GioiTinh" required>
+                    <option selected disabled value="">Chọn giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="0">Nữ</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="address-input">Địa Chỉ</label>
+                <input type="text" class="form-control" id="address-input" name="DiaChi" required>
+            </div>
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="email-input">Email</label>
+                <input type="email" class="form-control" id="email-input" name="Email" required>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Tạo</button>
+        <a href="/student/all" class="btn btn-secondary">Hủy</a>
+    </form>
+</main>
