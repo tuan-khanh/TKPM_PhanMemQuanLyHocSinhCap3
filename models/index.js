@@ -11,15 +11,19 @@ const connection = {
 };
 
 const db = pgp(connection);
-
-exports.selectAll = async (tableName) => {
-  const table = new pgp.helpers.TableName({ table: tableName, schema: schema });
-  const query = pgp.as.format("SELECT * from $1", table);
+exports.selectAll = async (TableName, FileName, Value) => {
+  const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
+  if(FileName && Value) {
+    var query = pgp.as.format(`SELECT * from $1 where "${FileName}" = '${Value}'`, table);
+  } else {
+    var query = pgp.as.format("SELECT * from $1", table);
+  }
+  console.log(query);
   try {
     const res = await db.any(query);
     return res;
   } catch (error) {
-    console.log("Error loading: ", error);
+    console.log("Error getting: ", error);
   }
 };
 

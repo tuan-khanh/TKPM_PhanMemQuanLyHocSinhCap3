@@ -11,14 +11,16 @@ exports.getCreateForm = (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   let students = await StudentModel.selectAllStudents();
-  for (let i = 0; i < students.length; i++) {
-    students[i].NgaySinh = date.format(students[i].NgaySinh, "DD-MM-YYYY");
+  if(students) {
+    // Handle Date to short date
+    for (let i = 0; i < students.length; i++) {
+      students[i].NgaySinh = date.format(students[i].NgaySinh, "DD-MM-YYYY");
+    }
   }
-  // handle NgaySinh
   res.render("student/all", {
     title: "Danh sách học sinh",
     layout: "general",
-    students,
+    students: students,
   });
 };
 

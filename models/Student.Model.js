@@ -11,6 +11,10 @@ module.exports = {
         return await db.selectOne(tableName, "MaSo", StudentID)
     },
 
+    selectAllStudentsByClass: async (ClassID) => {
+        return await db.selectAll(tableName, "LopID", ClassID);
+    },
+
     createStudent: async (student) => {
         return await db.save(tableName, student);
     },

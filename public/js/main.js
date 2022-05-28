@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    $("#all-table").DataTable({
+
+    $("#table").DataTable({
         responsive: true,
         columnDefs: [
             {
-                target: [6],
+                target: [-1],
                 searchable: false,
                 orderable: false,
                 
