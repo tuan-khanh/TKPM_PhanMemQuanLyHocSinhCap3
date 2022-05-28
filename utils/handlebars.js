@@ -1,10 +1,11 @@
 const express_handlebars = require("express-handlebars");
 const path = require("path");
+const date = require("date-and-time");
 
 const hbs = express_handlebars.create({
   extname: "hbs",
   helpers: {
-    if: function (v1, operator, v2, options) {
+    ifCond: function (v1, operator, v2, options) {
       switch (operator) {
         case "==":
           return v1 == v2 ? options.fn(this) : options.inverse(this);

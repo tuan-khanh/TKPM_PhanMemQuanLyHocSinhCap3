@@ -1,4 +1,5 @@
 header .nav-link:hover, header .dropdown-item:hover {
-    background-color: #cccccc;
+    background-color: var(--primary);
     font-weight: bold;
+    color: white;
 }

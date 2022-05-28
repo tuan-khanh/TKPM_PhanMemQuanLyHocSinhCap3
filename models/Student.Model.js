@@ -19,4 +19,8 @@ module.exports = {
         return await db.delete(tableName, "MaSo", StudentID);
     },
 
+    updateOneStudent: async (student) => {
+        return await db.update(tableName, "MaSo",student.MaSo, student);
+    }
+
 };
