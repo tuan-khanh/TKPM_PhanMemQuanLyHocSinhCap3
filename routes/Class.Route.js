@@ -5,6 +5,9 @@ const classController = require('../controllers/Class.Controller')
 // GET /class/all
 router.get('/all', classController.getAll)
 
+// GET /class/all
+router.get('/create', classController.getCreateForm)
+
 // GET /class/:id
 router.get('/:id', classController.getOneClass);
 

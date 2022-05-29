@@ -2,7 +2,7 @@ const ClassModel = require("../models/Class.Model");
 const StudentModel = require("../models/Student.Model");
 const date = require("date-and-time");
 exports.getAll = async function (req, res, next) {
-  let classes = await ClassModel.selectAllClass();
+  let classes = await ClassModel.selectAllClasses();
   if (classes) {
     for (let i = 0; i < classes.length; i++) {
       const students = await StudentModel.selectAllStudentsByClass(
@@ -27,18 +27,32 @@ exports.getOneClass = async function (req, res, next) {
       students[i].NgaySinh = date.format(students[i].NgaySinh, "DD-MM-YYYY");
     }
   }
-  console.log(Class);
   res.render("class/detail", {
-    title: "Class detail",
+    title: `Lớp ${Class.Ten}`,
     layout: "general",
     class: Class,
     students: students,
   });
 };
 
+exports.getCreateForm = (req, res, next) => {
+  res.render("class/create", {
+    title: "Lập danh sách lớp",
+    layout: "general",
+  });
+};
+
+
 exports.getUpdateForm = async function (req, res, next) {};
 
-exports.create = async function (req, res, next) {};
+exports.create = async function (req, res, next) {
+  const ClassID = req.body.ClassID;
+  const studentIds = req.body.students;
+  for (const studentId of studentIds) {
+    await StudentModel.updateClassOfStudent(studentId, ClassID);
+  }
+  res.redirect(`/class/${ClassID}`);
+};
 
 exports.update = async function (req, res, next) {};
 

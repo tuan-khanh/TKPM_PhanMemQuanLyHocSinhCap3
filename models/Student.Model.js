@@ -11,8 +11,16 @@ module.exports = {
         return await db.selectOne(tableName, "MaSo", StudentID)
     },
 
+    selectAllStudentsByName: async (Name) => {
+        return await db.selectAll(tableName, "HoTeb", Name);
+    },
+
     selectAllStudentsByClass: async (ClassID) => {
         return await db.selectAll(tableName, "LopID", ClassID);
+    },
+
+    selectAllAvailableStudent: async () => {
+        return await db.selectAll(tableName, "LopID", null);
     },
 
     createStudent: async (student) => {
@@ -25,6 +33,10 @@ module.exports = {
 
     updateOneStudent: async (student) => {
         return await db.update(tableName, "MaSo",student.MaSo, student);
+    },
+
+    updateClassOfStudent: async (StudentID, LopID) => {
+        return await db.update(tableName, "MaSo", StudentID, "LopID", LopID);
     }
 
 };

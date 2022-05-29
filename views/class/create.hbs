@@ -1,0 +1,23 @@
+<main class="main-content" style="margin-top: 80px">
+    <h3 class="align-center">Lập danh sách lớp</h3>
+    <form class="mx-auto mt-3" action="/class/create" method="POST" style="max-width: 500px">
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="class-input">Lớp</label>
+                <select class="custom-select" id="class-input" name="ClassID" required>
+                    <option selected disabled value="">Chọn Lớp</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="students-input">Học sinh</label>
+                <select id="students-input" class="multiple-select custom-select" name="students" multiple="multiple" required></select>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" type="submit">Lập danh sách lớp</button>
+        <a href="/class/all" class="btn btn-secondary">Hủy</a>
+    </form>
+</main>

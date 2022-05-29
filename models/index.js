@@ -11,14 +11,15 @@ const connection = {
 };
 
 const db = pgp(connection);
-exports.selectAll = async (TableName, FileName, Value) => {
+exports.selectAll = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
-  if(FileName && Value) {
-    var query = pgp.as.format(`SELECT * from $1 where "${FileName}" = '${Value}'`, table);
+  if(FieldName && Value) {
+    var query = pgp.as.format(`SELECT * from $1 where "${FieldName}" = '${Value}'`, table);
+  } else if(FieldName && Value == null) {
+    var query = pgp.as.format(`SELECT * from $1 where "${FieldName}" IS NULL`, table);
   } else {
     var query = pgp.as.format("SELECT * from $1", table);
   }
-  console.log(query);
   try {
     const res = await db.any(query);
     return res;
@@ -27,10 +28,9 @@ exports.selectAll = async (TableName, FileName, Value) => {
   }
 };
 
-exports.selectOne = async (TableName, FileName, Value) => {
+exports.selectOne = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
-  const query = pgp.as.format(`SELECT * from $1 where "${FileName}" = '${Value}'`, table);
-  console.log(query);
+  const query = pgp.as.format(`SELECT * from $1 where "${FieldName}" = '${Value}'`, table);
   try {
     const res = await db.any(query);
     return res[0];
@@ -56,6 +56,21 @@ exports.update = async (TableName, FieldId, id, NewObject) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, tmpEntity);
   const queryStr = pgp.helpers.update(tmpEntity, null, table) + condition;
+  try {
+    db.none(queryStr);
+  } catch (error) {
+    console.log("Error updating: ", error);
+  }
+};
+
+exports.update = async (TableName, FieldId, id, updatedField, newValue) => {
+  let simpleStudent = {};
+  simpleStudent[FieldId] = id;
+  simpleStudent[updatedField] = newValue;
+  const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
+  const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, simpleStudent);
+  const queryStr = pgp.helpers.update(simpleStudent, [`${updatedField}`], table) + condition;
+  console.log(queryStr);
   try {
     db.none(queryStr);
   } catch (error) {

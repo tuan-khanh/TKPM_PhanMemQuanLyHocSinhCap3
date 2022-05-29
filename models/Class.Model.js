@@ -3,7 +3,7 @@ const db = require("./index");
 const tableName = "Lop";
 
 module.exports = {
-    selectAllClass: async () => {
+    selectAllClasses: async () => {
         return await db.selectAll(tableName);
     },
 
