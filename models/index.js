@@ -11,6 +11,7 @@ const connection = {
 };
 
 const db = pgp(connection);
+
 exports.selectAll = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   if(FieldName && Value) {
@@ -20,6 +21,7 @@ exports.selectAll = async (TableName, FieldName, Value) => {
   } else {
     var query = pgp.as.format("SELECT * from $1", table);
   }
+  console.log(query);
   try {
     const res = await db.any(query);
     return res;
@@ -50,14 +52,17 @@ exports.save = async (TableName, Object) => {
   }
 };
 
-exports.update = async (TableName, FieldId, id, NewObject) => {
+exports.updateAll = async (TableName, FieldId, id, NewObject) => {
   tmpEntity = JSON.parse(JSON.stringify(NewObject));
   if (tmpEntity.f_ID != null) delete tmpEntity.f_ID;
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, tmpEntity);
   const queryStr = pgp.helpers.update(tmpEntity, null, table) + condition;
+  console.log(queryStr);
   try {
-    db.none(queryStr);
+    const res = db.none(queryStr);
+    console.log(res);
+    return res
   } catch (error) {
     console.log("Error updating: ", error);
   }
@@ -71,6 +76,7 @@ exports.update = async (TableName, FieldId, id, updatedField, newValue) => {
   const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, simpleStudent);
   const queryStr = pgp.helpers.update(simpleStudent, [`${updatedField}`], table) + condition;
   console.log(queryStr);
+
   try {
     db.none(queryStr);
   } catch (error) {

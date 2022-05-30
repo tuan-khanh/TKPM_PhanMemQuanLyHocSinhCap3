@@ -21,10 +21,12 @@
                     <td>{{this.Khoi}}</td>
                     <td>{{this.SiSo}}</td>
                     <td class="d-flex flex-column flex-lg-row justify-content-center ">
-                        <a href="/class/{{this.ID}}" class="m-1 btn btn-primary"><i class="bi bi-info-circle-fill"></i></a>
+                        <a href="/class/{{this.ID}}" class="m-1 btn btn-primary"><i
+                                class="bi bi-info-circle-fill"></i></a>
                         <a href="/class/update/{{this.ID}}" class="m-1 btn btn-success"><i
                                 class="bi bi-pencil-fill"></i></a>
-
+                        <a data-toggle="modal" data-id="{{this.ID}}" href="#deleteModal" class="m-1 btn btn-danger"><i
+                                class="bi bi-trash3-fill"></i></a>
                     </td>
                 </tr>
                 {{/each}}
@@ -36,4 +38,23 @@
 </main>
 
 {{#section 'modal'}}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <form class="modal-dialog modal-dialog-centered" action="/class" method="post">
+        <div class=" modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xóa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc muốn xóa ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <button type="submit" class="btn btn-danger">Có</button>
+            </div>
+    </form>
+</div>
+
 {{/section}}

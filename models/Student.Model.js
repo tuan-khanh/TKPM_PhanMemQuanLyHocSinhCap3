@@ -32,7 +32,7 @@ module.exports = {
     },
 
     updateOneStudent: async (student) => {
-        return await db.update(tableName, "MaSo",student.MaSo, student);
+        return await db.updateAll(tableName, "MaSo",student.MaSo, student);
     },
 
     updateClassOfStudent: async (StudentID, LopID) => {

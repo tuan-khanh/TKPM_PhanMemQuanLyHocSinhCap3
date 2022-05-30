@@ -26,5 +26,16 @@ router.get('/class/available/all', async (req, res) => {
     };
 })
 
+// DELETE api/class/:id
+router.delete('/class/:id', async function(req, res) {
+    const ClassID = req.params.id;
+    let students = await StudentModel.selectAllStudentsByClass(ClassID);
+    if (students) {
+      for (const student of students) {
+        await StudentModel.updateClassOfStudent(student.MaSo, null);
+      }
+    }
+    res.status(200).json({message: "Successfully deleted"});
+})
 
 module.exports = router

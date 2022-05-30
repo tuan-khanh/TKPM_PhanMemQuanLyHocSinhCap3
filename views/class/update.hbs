@@ -1,0 +1,25 @@
+<main class="main-content" style="margin-top: 80px">
+    <h3 class="align-center">Cập danh sách lớp {{class.Ten}}</h3>
+    <form class="mx-auto mt-3" action="/class/{{class.ID}}?_method=PUT" method="POST">
+        <div class="form-row mb-2">
+            <label for="class-input" class="col-sm-2 col-form-label">Lớp</label>
+            <div class="col-sm-10">
+                <input type="text" disabled class="form-control-plaintext font-weight-bold" name="class" id="class-input" value="{{class.Ten}}">
+            </div>
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="students-input">Học sinh</label>
+                <select id="students-input" class="multiple-select custom-select" name="students" multiple="multiple"  style="width: 100%">
+                    {{#each students}}
+                        <option value="{{this.MaSo}}" selected>{{this.MaSo}} - {{this.HoTen}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Cập nhật</button>
+        <a href="/class/all" class="btn btn-secondary">Hủy</a>
+    </form>
+</main>

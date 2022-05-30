@@ -11,7 +11,7 @@ exports.getCreateForm = (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   let students = await StudentModel.selectAllStudents();
-  if(students) {
+  if (students) {
     // Handle Date to short date
     for (let i = 0; i < students.length; i++) {
       students[i].NgaySinh = date.format(students[i].NgaySinh, "DD-MM-YYYY");
@@ -53,19 +53,22 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  // Kiểm tra -> Cập nhật? -> Thông báo thành công/thất bại?
-  // chuyển hướng về student/all
   var student = { ...req.body };
-  console.log(student)
   const result = await StudentModel.selectOneStudentByID(student.MaSo);
-  console.log(result)
   if (result) {
-      await StudentModel.updateOneStudent(student);
-      console.log("Successfully Update Student");
-    } else {
-      console.log("Unsuccessfully Update Student");
+    try {
+      const response = await StudentModel.updateOneStudent(student);
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+    } catch (err) {
+      console.error(`Could not get products: ${error}`);
     }
-    res.redirect("/student/all");
+    console.log("Successfully Update Student");
+  } else {
+    console.log("Unsuccessfully Update Student");
+  }
+  res.redirect("/student/all");
 };
 
 exports.delete = async (req, res, next) => {

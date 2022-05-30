@@ -13,8 +13,9 @@ $(document).ready(function () {
   $('a[href="#deleteModal"]').click(function () {
     const id = $(this).attr("data-id");
     console.log(id);
-    $("#deleteModal").attr("action", `/student/${id}?_method=DELETE`);
-    console.log($("#deleteModal").attr("action"));
+    let action = $("#deleteModal form").attr("action") + "/" + id + "?_method=DELETE";
+    console.log(action);
+    $("#deleteModal form").attr("action", action);
   });
 
   $.ajax({
@@ -22,10 +23,9 @@ $(document).ready(function () {
     method: "GET",
   }).done((res) => {
     if (res) {
-      console.log(res);
       if (res.classes) {
         for (const cls of res.classes) {
-          $("#class-input").append(
+          $("select#class-input").append(
             `<option value="${cls.ID}">${cls.Ten}</option>`
           );
         }
@@ -42,9 +42,8 @@ $(document).ready(function () {
     if (res) {
       console.log(res);
       if (res.students) {
-        console.log(res.students);
         for (const student of res.students) {
-          $("#students-input").append(
+          $("select#students-input").append(
             `<option value="${student.MaSo}">${student.MaSo} - ${student.HoTen}</option>`
           );
         }
@@ -53,5 +52,9 @@ $(document).ready(function () {
       console.log("error...ajax");
     }
   });
-  $(".multiple-select").select2();
+  $("select.multiple-select").select2({
+    maximumSelectionLength: 40,
+    width: 'resolve',
+    closeOnSelect: false,
+  });
 });

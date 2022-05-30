@@ -11,6 +11,10 @@ module.exports = {
         return await db.selectOne(tableName, "ID", ClassID)
     },
 
+    selectOneClassByName: async (ClassName) => {
+        return await db.selectOne(tableName, "Ten", ClassName)
+    },
+
     createClass: async (Class) => {
         return await db.save(tableName, Class);
     },
