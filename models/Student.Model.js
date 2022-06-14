@@ -12,7 +12,7 @@ module.exports = {
     },
 
     selectAllStudentsByName: async (Name) => {
-        return await db.selectAll(tableName, "HoTeb", Name);
+        return await db.selectAll(tableName, "HoTen", Name);
     },
 
     selectAllStudentsByClass: async (ClassID) => {

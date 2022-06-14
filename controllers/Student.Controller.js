@@ -1,5 +1,6 @@
 const { decodeBase64 } = require("bcryptjs");
 const StudentModel = require("../models/Student.Model");
+
 const date = require("date-and-time");
 
 exports.getCreateForm = (req, res, next) => {
@@ -39,8 +40,6 @@ exports.getUpdateForm = async (req, res, next) => {
 };
 
 exports.create = async (req, res, next) => {
-  // Kiểm tra -> Tạo thêm? -> Thông báo thành công/thất bại?
-  // Chuyển hướng về student/all
   var student = { ...req.body };
   const result = await StudentModel.selectOneStudentByID(student.MaSo);
   if (!result) {

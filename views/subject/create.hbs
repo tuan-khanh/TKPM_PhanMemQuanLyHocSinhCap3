@@ -1,0 +1,21 @@
+<main class="main-content" style="margin-top: 80px">
+    <h3 class="align-center">Tạo thêm môn học</h3>
+    <form id="create-subject-form" class="mx-auto mt-3" action="/subject/create" method="POST" style="max-width: 500px">
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="code-input">Mã Môn học</label>
+                <input type="number" class="form-control" id="code-input" name="MaBM" required>
+            </div>
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="name-input">Tên môn học</label>
+                <input type="text" class="form-control" id="name-input" name="Ten" required>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Tạo</button>
+        <a href="/subject/all" class="btn btn-secondary">Hủy</a>
+    </form>
+</main>

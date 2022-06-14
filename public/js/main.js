@@ -52,6 +52,9 @@ $(document).ready(function () {
       console.log("error...ajax");
     }
   });
+
+  
+
   $("select.multiple-select").select2({
     maximumSelectionLength: 40,
     width: 'resolve',

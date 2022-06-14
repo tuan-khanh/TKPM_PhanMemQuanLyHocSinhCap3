@@ -1,0 +1,26 @@
+<main class="main-content" style="margin-top: 80px">
+    <h3 class="align-center">Cập nhật thông tin môn học</h3>
+    {{#if subject}}
+    <form class="mx-auto mt-3" action="/subject/{{subject.MaBM}}?_method=PUT" method="POST" style="max-width: 500px">
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="studentId-input">Mã Môn Học</label>
+                <input type="text" class="form-control" id="studentId-input" name="MaBM" value="{{subject.MaBM}}"
+                    required readonly>
+            </div>
+        </div>
+
+        <div class="form-row mb-2">
+            <div class="col">
+                <label for="name-input">Tên</label>
+                <input type="text" class="form-control" id="name-input" name="Ten" value="{{subject.Ten}}" required>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Cập nhật</button>
+        <a href="/subject/all" class="btn btn-secondary">Hủy</a>
+    </form>
+    {{else}}
+    <p class="text-uppercase">Không tồn tại Môn học này</p>
+    {{/if}}
+</main>
