@@ -8,7 +8,7 @@ module.exports = {
     },
 
     selectOneSubjectByID: async (SubjectID) => {
-        return await db.selectOne(tableName, "MaBM", SubjectID)
+        return await db.selectOne(tableName, "ID", SubjectID)
     },
 
     selectAllSubjectByName: async (Name) => {

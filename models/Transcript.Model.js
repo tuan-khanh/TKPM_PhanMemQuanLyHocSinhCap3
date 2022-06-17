@@ -67,7 +67,7 @@ module.exports = {
         if(short) {
             return {
                 "HocSinhID": record.HocSinhID,
-                "DTB": 1*record.Diem15Phut + 2*record.Diem1Tiet + 3*record.DiemCuoiKy,
+                "DTB": (1*record.Diem15Phut + 2*record.Diem1Tiet + 3*record.DiemCuoiKy)/(1+2+3),
             }
         } else
             return record;

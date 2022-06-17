@@ -41,7 +41,7 @@ exports.selectAllByMultipleConditions = async (TableName, Fields, Values) => {
     }
   }
   var query = pgp.as.format('SELECT * from $1 WHERE $2:raw', [table, where]);
-  console.log(query);
+  // console.log(query);
   try {
     const res = await db.any(query);
     return res;
