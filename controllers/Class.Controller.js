@@ -1,5 +1,7 @@
 const ClassModel = require("../models/Class.Model");
 const StudentModel = require("../models/Student.Model");
+const SubjectModel = require("../models/Subject.Model");
+const TranscriptModel = require("../models/Transcript.Model");
 const date = require("date-and-time");
 const axios = require("axios").default;
 exports.getAll = async function (req, res, next) {
@@ -22,7 +24,6 @@ exports.getAll = async function (req, res, next) {
 exports.getOneClass = async function (req, res, next) {
   let Class = await ClassModel.selectOneClassByID(req.params.id);
   var students = await StudentModel.selectAllStudentsByClass(Class.ID);
-  console.log(students.length);
   Class.SiSo = students.length;
   if (students) {
     for (let i = 0; i < students.length; i++) {
@@ -71,12 +72,13 @@ exports.create = async function (req, res, next) {
     await ClassModel.createClass(Class);
   }
   exsistedClass = await ClassModel.selectOneClassByName(Class.Ten);
-  const studentIds = req.body.students;
+  let studentIds = req.body.students;
   if (typeof studentIds != "object") {
     studentIds = [studentIds];
   }
   for (const studentId of studentIds) {
     await StudentModel.updateClassOfStudent(studentId, exsistedClass.ID);
+    await TranscriptModel.createTranscriptByOneStudent(studentId);
   }
   res.redirect(`/class/${exsistedClass.ID}`);
 };
@@ -88,23 +90,28 @@ exports.update = async function (req, res, next) {
     if (typeof studentIDs != "object") {
       studentIDs = [studentIDs];
     }
-    console.log(studentIDs.length);
-    const currentStudents = await StudentModel.selectAllStudentsByClass(
-      ClassID
-    );
-    console.log(currentStudents.length);
+    const currentStudents = await StudentModel.selectAllStudentsByClass(ClassID);
+
     if (currentStudents.length) {
-      for (const id of studentIDs) {
-        const existed = currentStudents.some((s) => s.MaSo == id);
-        if (!existed) await StudentModel.updateClassOfStudent(id, ClassID);
+      console.log("Lop da co hoc sinh")
+
+      // get new student
+      for (const ID of studentIDs) {
+        let existed = currentStudents.filter((s) => s.ID == ID);
+        if (!existed.length) {
+          await StudentModel.updateClassOfStudent(ID, ClassID);
+        }
       }
 
+      // remove old student
       for (const student of currentStudents) {
-        const existed = studentIDs.some((id) => id == student.MaSo);
-        if (!existed)
-          await StudentModel.updateClassOfStudent(student.MaSo, null);
+        let existed = studentIDs.filter((id) => id == student.ID);
+        if (!existed.length) {
+          await StudentModel.updateClassOfStudent(student.ID, null);
+        }
       }
     } else {
+      console.log("Lop chua co hoc sinh")
       for (const studentID of studentIDs) {
         await StudentModel.updateClassOfStudent(studentID, ClassID);
       }
@@ -122,13 +129,17 @@ exports.update = async function (req, res, next) {
 exports.delete = async function (req, res, next) {
   const ClassID = req.params.id;
   let students = await StudentModel.selectAllStudentsByClass(ClassID);
-  if (students) {
-    for (const student of students) {
-      await StudentModel.updateClassOfStudent(student.MaSo, null);
+  console.table(students)
+  try {
+    if (students.length) {
+      for (const student of students) {
+        await StudentModel.updateClassOfStudent(student.ID, null);
+      }
     }
+  } finally {
+    console.log("DELETE CLASS");
+    await ClassModel.deleteOneClass(ClassID);
   }
-  console.log("DELETE CLASS");
-  await ClassModel.deleteOneClass(ClassID);
 
   res.redirect("/class/all");
 };

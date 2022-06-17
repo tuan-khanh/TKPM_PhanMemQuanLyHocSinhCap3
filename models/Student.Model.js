@@ -7,7 +7,11 @@ module.exports = {
         return await db.selectAll(tableName);
     },
 
-    selectOneStudentByID: async (StudentID) => {
+    selectOneStudentByID: async (ID) => {
+        return await db.selectOne(tableName, "ID", ID)
+    },
+
+    selectOneStudentByStudentID: async (StudentID) => {
         return await db.selectOne(tableName, "MaSo", StudentID)
     },
 
@@ -28,7 +32,7 @@ module.exports = {
     },
 
     deleteOneStudent: async (StudentID) => {
-        return await db.delete(tableName, "MaSo", StudentID);
+        return await db.delete(tableName, "ID", StudentID);
     },
 
     updateOneStudent: async (student) => {
@@ -36,7 +40,6 @@ module.exports = {
     },
 
     updateClassOfStudent: async (StudentID, LopID) => {
-        return await db.update(tableName, "MaSo", StudentID, "LopID", LopID);
+        return await db.update(tableName, "ID", StudentID, "LopID", LopID);
     }
-
 };

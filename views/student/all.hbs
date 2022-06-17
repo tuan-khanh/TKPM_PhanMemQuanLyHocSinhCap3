@@ -6,10 +6,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Họ tên</th>
-                    <th scope="col">Ngày sinh</th>
-                    <th scope="col">Giới tính</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Lớp</th>
+                    <th scope="col">TBHK1</th>
+                    <th scope="col">TBHK2</th>
                     <th></th>
                 </tr>
             </thead>
@@ -18,19 +17,13 @@
                 <tr>
                     <th scope="row">{{this.MaSo}}</th>
                     <td>{{this.HoTen}}</td>
-                    <td>{{this.NgaySinh}}</td>
-                    {{#ifCond this.GioiTinh "===" 1}}
-                    <td>Nam</td>
-                    {{/ifCond}}
-                    {{#ifCond this.GioiTinh "===" 0}}
-                    <td>Nữ</td>
-                    {{/ifCond}}
-                    <td>{{this.Email}}</td>
-                    <td>{{this.DiaChi}}</td>
+                    <td>{{this.LopID}}</td>
+                    <td>{{this.DTBHK1}}</td>
+                    <td>{{this.DTBHK2}}</td>
                     <td class="d-flex flex-column flex-lg-row justify-content-around ">
-                        <a href="/student/update/{{this.MaSo}}" class="m-1 btn btn-success"><i
+                        <a href="/student/update/{{this.ID}}" class="m-1 btn btn-success"><i
                                 class="bi bi-pencil-fill"></i></a>
-                        <a data-toggle="modal" data-id="{{this.MaSo}}" href="#deleteModal" class="m-1 btn btn-danger"><i
+                        <a data-toggle="modal" data-id="{{this.ID}}" href="#deleteModal" class="m-1 btn btn-danger"><i
                                 class="bi bi-trash3-fill"></i></a>
                     </td>
                 </tr>

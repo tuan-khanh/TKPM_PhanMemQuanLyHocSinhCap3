@@ -26,15 +26,27 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{!-- LOADING --}}
+    <link rel="stylesheet" href="/css/loading.css" />
+    <script src="/js/loading.js"></script>
 </head>
 
 <body>
+    <div class="loading text-center">
+    <div class="spinner-border spinner-border-lg text-primary" role="status" aria-hidden="true"></div>
+        <span class="my-5">
+        <span class="h3 font-weight-bold">Đợi một chút nhé</sp>
+        <div class="spinner-grow spinner-grow-xs text-primary mx-1 my-1" role="status"></div>
+        <div class="spinner-grow spinner-grow-xs text-danger mx-1 my-1" role="status"></div>
+        <div class="spinner-grow spinner-grow-xs text-success mx-1 my-1" role="status"></div>
+        </span>
+    </div>
     <div class="container">
         <!-- DEFINE A 'header' SECTION -->
         {{#section 'header'}}
         <header>
             <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-                <a class="navbar-brand font-weight-bold " href="#">
+                <a class="navbar-brand font-weight-bold " href="/">
                     Quản lý học sinh THPT
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-menu"
@@ -75,7 +87,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="rounded nav-link" href="#">Bảng điểm <span class="sr-only">(current)</span></a>
+                            <a class="rounded nav-link" href="/transcript">Bảng điểm <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="rounded  nav-link dropdown-toggle" href="#" id="Report-Menu" role="button"

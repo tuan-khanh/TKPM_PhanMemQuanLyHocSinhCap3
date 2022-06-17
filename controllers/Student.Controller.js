@@ -1,6 +1,6 @@
 const { decodeBase64 } = require("bcryptjs");
 const StudentModel = require("../models/Student.Model");
-
+const TranscriptModel = require("../models/Transcript.Model");
 const date = require("date-and-time");
 
 exports.getCreateForm = (req, res, next) => {
@@ -14,8 +14,11 @@ exports.getAll = async (req, res, next) => {
   let students = await StudentModel.selectAllStudents();
   if (students) {
     // Handle Date to short date
-    for (let i = 0; i < students.length; i++) {
-      students[i].NgaySinh = date.format(students[i].NgaySinh, "DD-MM-YYYY");
+    for (let student of students) {
+      student.NgaySinh = date.format(student.NgaySinh, "DD-MM-YYYY");
+      const shortTranscript = await TranscriptModel.selectTranscripByStudent(student.ID, true);
+      student.DTBHK1 = shortTranscript.DTBHK1;
+      student.DTBHK2 = shortTranscript.DTBHK2;
     }
   }
   res.render("student/all", {
@@ -41,9 +44,16 @@ exports.getUpdateForm = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   var student = { ...req.body };
-  const result = await StudentModel.selectOneStudentByID(student.MaSo);
-  if (!result) {
+  let currentStudent = await StudentModel.selectOneStudentByStudentID(student.MaSo);
+  if (!currentStudent) {
     await StudentModel.createStudent(student);
+    currentStudent = await StudentModel.selectOneStudentByStudentID(student.MaSo);
+    console.log(currentStudent);
+    let Transcript = await TranscriptModel.selectTranscripByStudent(currentStudent.ID);
+    if(!Transcript.length) {
+      await TranscriptModel.createTranscriptByOneStudent(currentStudent.ID);
+      console.log("successfully created transcript");
+    }
     console.log("Successfully created");
   } else {
     console.log("Unsuccessfully created");
@@ -72,9 +82,15 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   const StudentID = req.params.id;
-  const result = await StudentModel.selectOneStudentByID(StudentID);
-  if (result) {
-    await StudentModel.deleteOneStudent(StudentID);
+  const currentStudent = await StudentModel.selectOneStudentByID(StudentID);
+  if (currentStudent) {
+    const Transcript = await TranscriptModel.selectTranscripByStudent(currentStudent.ID);
+    if(Transcript) {
+      await TranscriptModel.deleteTranScriptOfOneStudent(currentStudent.ID);
+      console.log("successfully deleted transcript");
+    }
+    await StudentModel.deleteOneStudent(currentStudent.ID);
+
     console.log("Successfully deleted!");
   } else {
     console.log("Unsuccessfully deleted!");

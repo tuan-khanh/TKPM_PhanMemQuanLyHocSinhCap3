@@ -21,6 +21,26 @@ exports.selectAll = async (TableName, FieldName, Value) => {
   } else {
     var query = pgp.as.format("SELECT * from $1", table);
   }
+  // console.log(query);
+  try {
+    const res = await db.any(query);
+    return res;
+  } catch (error) {
+    console.log("Error getting: ", error);
+  }
+};
+
+exports.selectAllByMultipleConditions = async (TableName, Fields, Values) => {
+  const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
+  let number = Fields.length;
+  let where = "";
+  for(let i = 0; i < Fields.length; i++) {
+    where += `"${Fields[i]}" = ${Values[i]}`;
+    if(i < Fields.length -1) {
+      where += " AND ";
+    }
+  }
+  var query = pgp.as.format('SELECT * from $1 WHERE $2:raw', [table, where]);
   console.log(query);
   try {
     const res = await db.any(query);
@@ -44,6 +64,7 @@ exports.selectOne = async (TableName, FieldName, Value) => {
 exports.save = async (TableName, Object) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const query = pgp.helpers.insert(Object, null, table) + " RETURNING *";
+  // console.log(query);
   try {
     const res = await db.one(query);
     return res;
@@ -58,7 +79,7 @@ exports.updateAll = async (TableName, FieldId, id, NewObject) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, tmpEntity);
   const queryStr = pgp.helpers.update(tmpEntity, null, table) + condition;
-  console.log(queryStr);
+  // console.log(queryStr);
   try {
     const res = db.none(queryStr);
     console.log(res);
@@ -86,7 +107,8 @@ exports.update = async (TableName, FieldId, id, updatedField, newValue) => {
 
 exports.delete = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
-  const queryStr = pgp.as.format(`DELETE from $1 where "${FieldName}" = '${Value}'`, table);
+  const queryStr = pgp.as.format(`DELETE from $1 where "${FieldName}" = ${Value}`, table);
+  console.log(queryStr);
   try {
     const res = await db.result(queryStr);
     return res;
