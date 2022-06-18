@@ -5,6 +5,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">MSHS</th>
                     <th scope="col">Họ tên</th>
                     <th scope="col">Lớp</th>
                     <th scope="col">TBHK1</th>
@@ -15,7 +16,8 @@
             <tbody>
                 {{#each students}}
                 <tr>
-                    <th scope="row">{{this.MaSo}}</th>
+                    <th scope="row">{{@index}}</th>
+                    <th>{{this.MaSo}}</th>
                     <td>{{this.HoTen}}</td>
                     <td>{{this.LopID}}</td>
                     <td>{{this.DTBHK1}}</td>
@@ -28,7 +30,6 @@
                     </td>
                 </tr>
                 {{/each}}
-                </tr>
 
             </tbody>
         </table>

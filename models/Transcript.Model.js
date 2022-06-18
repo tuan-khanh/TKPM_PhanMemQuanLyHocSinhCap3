@@ -66,8 +66,9 @@ module.exports = {
         record = record[0];
         if(short) {
             return {
+                "ID": record.ID,
                 "HocSinhID": record.HocSinhID,
-                "DTB": (1*record.Diem15Phut + 2*record.Diem1Tiet + 3*record.DiemCuoiKy)/(1+2+3),
+                "DTB": ((1*record.Diem15Phut + 2*record.Diem1Tiet + 3*record.DiemCuoiKy)/(1+2+3)).toFixed(2),
             }
         } else
             return record;

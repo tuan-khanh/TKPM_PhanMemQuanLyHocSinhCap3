@@ -2,6 +2,7 @@ const { getSubjectReport } = require('../models/Report.Model');
 const ReportModel = require('../models/Report.Model');
 const SubjectModel = require('../models/Subject.Model');
 
+
 exports.subject = async (req, res, next) => {
     if(Object.keys(req.query).length != 0) {
         const report = await ReportModel.getSubjectReport(req.query.subject, req.query.term);

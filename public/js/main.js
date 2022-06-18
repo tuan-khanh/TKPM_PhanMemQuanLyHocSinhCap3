@@ -10,7 +10,7 @@ $(document).ready(function () {
     ],
   });
 
-  $('a[href="#deleteModal"]').click(function () {
+$('a[href="#deleteModal"]').click(function () {
     const id = $(this).attr("data-id");
     console.log(id);
     let action =
@@ -95,6 +95,7 @@ $(document).ready(function () {
       });
     }
   });
+
   $("#transcript-table").on("blur", "input.score", function(event) {
     const id = $(this).attr("data-id");
     const score = {
@@ -113,10 +114,47 @@ $(document).ready(function () {
 
   })
 
+  $("#rule-table").on("blur", ".rule-input", function(event) {
+    console.log($(this).val())
+    $.post( `/rule/${$(this).attr("data-id")}?_method=PUT`, {
+      value: $(this).val(),
+      dataType: $(this).attr("data-type"),
+    })
+    .done((res) => {
+      if(res) {
+        console.log(res.message);
+      } else {
+        console.log("error...ajax");
+      }
+    })
 
-  $("select.multiple-select").select2({
-    maximumSelectionLength: 40,
-    width: "resolve",
-    closeOnSelect: false,
+  })
+  $.get("/api/rule/all", {level: "short"})
+  .done((res) => {
+    if(res) {
+      console.log(res.rules);
+        $("select.multiple-select").select2({
+          maximumSelectionLength: res.rules.MaxNumberStudentsPerClass,
+          width: "resolve",
+          closeOnSelect: false,
+        });
+    } else {
+      console.log("error...ajax");
+      $("select.multiple-select").select2({
+        maximumSelectionLength: 40,
+        width: "resolve",
+        closeOnSelect: false,
+      });
+
+    }
+  })
+
+  $("input, select").on("change blur", () => {
+    // $(this).validate();
+  })
+  
+  $.validator.setDefaults({
+    debug: true,
+    success: "valid"
   });
 });

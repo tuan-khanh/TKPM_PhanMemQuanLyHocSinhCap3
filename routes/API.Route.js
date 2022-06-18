@@ -4,7 +4,7 @@ const ClassModel = require('../models/Class.Model')
 const SubjectModel = require('../models/Subject.Model');
 const Transcript = require('../models/Transcript.Model');
 const TranscriptModel = require('../models/Transcript.Model');
-const MaxNumberStudentsPerClass = 40;
+const RuleModel = require('../models/Rule.Model');
 
 // GET api/student/available/all
 router.get('/student/available/all', async (req, res) => {
@@ -57,6 +57,56 @@ router.get("/transcript", async (req, res) => {
     });
 });
 
+// GET /api/rule/all
+router.get('/rule/all', async (req, res) => {
+    let rules = await RuleModel.selectAll();
+    var  specializedRules = {};
+    
+    if(rules) {
+        for(const rule of rules) {
+            rule.GiaTri = (rule.KieuDuLieu == "int") ? parseInt(rule.GiaTri) : parseFloat(rule.GiaTri).toFixed(2);
+        }
+
+        if(req.query.level == "short") {
+            for(const rule of rules) {
+                if(rule.ID == '1000') {
+                    specializedRules.MaxNumberStudentsPerClass = rule.GiaTri;
+                    continue;
+                }
+                if(rule.ID == '1001') {
+                    specializedRules.MinAge = rule.GiaTri;
+                    continue;
+                }
+                if(rule.ID == '1002') {
+                    specializedRules.MaxAge = rule.GiaTri;
+                    continue;
+                }
+                if(rule.ID == '1003') {
+                    specializedRules.MinScore = rule.GiaTri;
+                    continue;
+                }
+            }
+
+            if(specializedRules) {
+                // console.table(specializedRules)
+                return res.status(200).json({
+                    "rules": specializedRules,
+                })
+            }
+
+        } else {
+                for(const rule of rules) {
+
+                }
+                return res.status(200).json({
+                    "rules": rules,
+                })
+            }
+    }
+
+    res.status(404).json({message: "Cant get all rules"});
+});
+
 //  POST /transcript/:id
 router.put("/transcript/:id", async (req, res) => {
     console.log(req.params.id);
@@ -96,8 +146,8 @@ router.delete('/class/:id', async function(req, res) {
       }
     }
     res.status(200).json({message: "Successfully deleted"});
-})
+});
 
 
 
-module.exports = router
+module.exports = router;
