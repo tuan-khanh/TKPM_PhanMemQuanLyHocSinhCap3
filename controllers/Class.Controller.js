@@ -98,18 +98,12 @@ exports.update = async function (req, res, next) {
   let rules = await axios.get(`http://localhost:${process.env.PORT}/api/rule/all`, {params: {level: "short"}})
     .catch(function (error) {
         if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
         } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
             console.log(error.request);
         } else {
-            // Something happened in setting up the request that triggered an Error
             console.log('Error', error.message);
         }
         console.log(error.config);
@@ -126,7 +120,6 @@ exports.update = async function (req, res, next) {
     const currentStudents = await StudentModel.selectAllStudentsByClass(Class.ID);
 
     if (currentStudents.length) {
-      // console.log("Lop da co hoc sinh")
 
       // get new student
       for (const ID of studentIDs) {
@@ -145,7 +138,6 @@ exports.update = async function (req, res, next) {
         }
       }
     } else {
-      console.log("Lop chua co hoc sinh")
       for (const studentID of studentIDs) {
         await StudentModel.updateClassOfStudent(studentID, Class.ID);
       }
@@ -154,18 +146,12 @@ exports.update = async function (req, res, next) {
     const response = await axios.delete(`http://localhost:${process.env.PORT}/api/class/${Class.ID}`)
       .catch(function (error) {
           if (error.response) {
-              // The request was made and the server responded with a status code
-              // that falls out of the range of 2xx
               console.log(error.response.data);
               console.log(error.response.status);
               console.log(error.response.headers);
           } else if (error.request) {
-              // The request was made but no response was received
-              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-              // http.ClientRequest in node.js
               console.log(error.request);
           } else {
-              // Something happened in setting up the request that triggered an Error
               console.log('Error', error.message);
           }
           console.log(error.config);
@@ -180,7 +166,7 @@ exports.delete = async function (req, res, next) {
   const currentClass = await ClassModel.selectOneClassByID(ClassID);
   if(currentClass) {
     let students = await StudentModel.selectAllStudentsByClass(ClassID);
-    console.table(students)
+    // console.table(students)
     try {
       if (students.length) {
         for (const student of students) {

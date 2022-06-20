@@ -108,7 +108,7 @@ exports.update = async (TableName, FieldId, id, updatedField, newValue) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, simpleStudent);
   const queryStr = pgp.helpers.update(simpleStudent, [`${updatedField}`], table) + condition;
-  console.log(queryStr);
+  // console.log(queryStr);
 
   try {
     db.none(queryStr);
@@ -120,7 +120,7 @@ exports.update = async (TableName, FieldId, id, updatedField, newValue) => {
 exports.delete = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const queryStr = pgp.as.format(`DELETE FROM $1 where "${FieldName}" = ${Value}`, table);
-  console.log(queryStr);
+  // console.log(queryStr);
   try {
     const res = await db.result(queryStr);
     return res;

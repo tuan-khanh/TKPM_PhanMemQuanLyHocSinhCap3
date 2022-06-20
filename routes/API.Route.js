@@ -112,7 +112,7 @@ router.get('/rule/all', async (req, res) => {
                 // console.table(specializedRules)
                 return res.status(200).json({
                     "rules": specializedRules,
-                    "status": 200,
+                    "success": true,
                 })
             }
 
@@ -122,12 +122,15 @@ router.get('/rule/all', async (req, res) => {
                 }
                 return res.status(200).json({
                     "rules": rules,
-                    "status": 200,
+                    "success": true,
                 })
             }
     }
 
-    res.status(404).json({message: "Cant get all rules"});
+    res.status(404).json({
+        message: "Cant get all rules",
+        success: false,
+    });
 });
 
 //  POST /transcript/:id
@@ -175,7 +178,10 @@ router.delete('/class/:id', async function(req, res) {
         await TranscriptModel.setDefaultTranscriptOfOneStudent(student.ID);
       }
     }
-    res.status(200).json({message: "Successfully deleted"});
+    res.status(200).json({
+        message: "Successfully deleted",
+        success: true,
+    });
 });
 
 

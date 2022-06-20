@@ -11,18 +11,12 @@ module.exports = {
         let rules = await axios.get(`http://localhost:${process.env.PORT}/api/rule/all`, {params: {level: "short"}})
             .catch(function (error) {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
                     console.log(error.request);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
                     console.log('Error', error.message);
                 }
                 console.log(error.config);
@@ -40,13 +34,11 @@ module.exports = {
             var scores = [];
             for(const student of students) {
                 const score = await TranscriptModel.selectOneRecordOfStudent(student.ID, SubjectID, Term, true);
-                // console.log(rules.data.MinScore);
                 if(score.DTB >= rules.MinScore) {
                     scores.push(score);
                     record.Dat ++;
                 }
             }
-            console.table(scores);
             record.TiLe = (record.Dat / record.SiSo *100).toFixed(2);
             report.push(record);
         }
@@ -60,18 +52,12 @@ module.exports = {
         let rules = await axios.get(`http://localhost:${process.env.PORT}/api/rule/all`, {params: {level: "short"}})
             .catch(function (error) {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
                     console.log(error.request);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
                     console.log('Error', error.message);
                 }
                 console.log(error.config);

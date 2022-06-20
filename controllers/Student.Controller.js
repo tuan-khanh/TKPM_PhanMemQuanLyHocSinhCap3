@@ -5,7 +5,7 @@ const date = require("date-and-time");
 const axios = require("axios");
 
 exports.getCreateForm = (req, res, next) => {
-  res.render("student/create", {
+  res.status(200).render("student/create", {
     title: "Quản lý học sinh",
     layout: "general",
   });
@@ -21,7 +21,7 @@ exports.getAll = async (req, res, next) => {
       student.DTBHK2 = shortTranscript.DTBHK2;
     }
   }
-  res.render("student/all", {
+  res.status(200).render("student/all", {
     title: "Quản lý học sinh",
     layout: "general",
     students: students,
@@ -48,18 +48,12 @@ exports.create = async (req, res, next) => {
     let rules = await axios.get(`http://localhost:${process.env.PORT}/api/rule/all`, {params: {level: "short"}})
     .catch(function (error) {
         if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
         } else if (error.request) {
-            // The request was made but no response was received
-            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
             console.log(error.request);
         } else {
-            // Something happened in setting up the request that triggered an Error
             console.log('Error', error.message);
         }
         console.log(error.config);
@@ -77,12 +71,12 @@ exports.create = async (req, res, next) => {
         await TranscriptModel.createTranscriptByOneStudent(currentStudent.ID);
         // console.log("successfully created transcript");
       }
-      console.log("Successfully created");
+      // console.log("Successfully created");
     } else {
-      console.log("Unsuccessfully created");
+      // console.log("Unsuccessfully created");
     }
   }
-  res.redirect("/student/all");
+  res.status(200).redirect("/student/all");
 };
 
 exports.update = async (req, res, next) => {
@@ -92,18 +86,12 @@ exports.update = async (req, res, next) => {
   let rules = await axios.get(`http://localhost:${process.env.PORT}/api/rule/all`, {params: {level: "short"}})
   .catch(function (error) {
       if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
       } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
           console.log(error.request);
       } else {
-          // Something happened in setting up the request that triggered an Error
           console.log('Error', error.message);
       }
       console.log(error.config);
@@ -116,12 +104,12 @@ exports.update = async (req, res, next) => {
     const currentStudent = await StudentModel.selectOneStudentByID(student.ID);
     if (currentStudent) {
       const response = await StudentModel.updateOneStudent(student);
-      console.log("Successfully Update Student");
+      // console.log("Successfully Update Student");
     }
   } else {
-    console.log("Unsuccessfully Update Student");
+    // console.log("Unsuccessfully Update Student");
   }
-  res.redirect("/student/all");
+  res.status(200).redirect("/student/all");
 };
 
 exports.delete = async (req, res, next) => {

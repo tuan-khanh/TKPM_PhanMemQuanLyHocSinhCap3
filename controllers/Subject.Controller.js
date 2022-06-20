@@ -25,7 +25,6 @@ exports.getCreateForm = (req, res, next) => {
 
 exports.getUpdateForm = async function (req, res, next) {
   const Subject = await SubjectModel.selectOneSubjectByID(req.params.id);
-  console.log(Subject);
   if (Subject) {
     res.status(200).render("subject/update", {
       title: `Cập nhật môn ${Subject.Ten}`,
@@ -67,8 +66,6 @@ exports.update = async function (req, res, next) {
   };
 
   const currentSubject = await SubjectModel.selectOneSubjectByID(SubjectID);
-  console.log(currentSubject)
-  console.log(updatedSubject)
   if (currentSubject.Ten != updatedSubject.Ten) {
       await SubjectModel.updateOneSubject(updatedSubject);
   }

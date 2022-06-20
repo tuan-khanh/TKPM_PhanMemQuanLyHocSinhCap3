@@ -20,7 +20,6 @@ $(document).ready(function () {
           errorMessage: "Mã học sinh là bắt buộc",
         },
         {
-          // rule: 'not-duplicated',
           validator: (value) => {
             let result = true;
             $.ajax({
@@ -137,7 +136,6 @@ $(document).ready(function () {
             errorMessage: "Vui lòng nhập Mã môn học (VD: 1000)",
           },
           {
-            // rule: 'not-duplicated',
             validator: (value) => {
               let result = true;
               $.ajax({

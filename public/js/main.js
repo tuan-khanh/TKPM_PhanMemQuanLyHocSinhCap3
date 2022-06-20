@@ -1,4 +1,3 @@
-// import JustValidate from 'just-validate';
 $(document).ready(function () {
   var table = $("table").DataTable({
     responsive: true,
@@ -15,6 +14,7 @@ $(document).ready(function () {
     ],
   });
 
+if($("#class-input").length) {
   $.ajax({
     url: "/api/class/all",
     method: "GET",
@@ -31,6 +31,7 @@ $(document).ready(function () {
       console.log("error...ajax");
     }
   });
+}
 
   if($("#subject-input").length) {
     $.ajax({
@@ -52,7 +53,7 @@ $(document).ready(function () {
     });
   }
 
-
+if($("#students-input").length) {
   $.ajax({
     url: "/api/student/available/all",
     method: "GET",
@@ -69,6 +70,25 @@ $(document).ready(function () {
       console.log("error...ajax");
     }
   });
+
+  $.get("/api/rule/all", { level: "short" }).done((res) => {
+    if (res.success) {
+      $("select#students-input").select2({
+        maximumSelectionLength: res.rules.MaxNumberStudentsPerClass,
+        width: "resolve",
+        closeOnSelect: false,
+      });
+    } else {
+      console.log("error...ajax");
+      $("select#students-input").select2({
+        maximumSelectionLength: 40,
+        width: "resolve",
+        closeOnSelect: false,
+      });
+    }
+  });
+
+}
 
   $("select").change(function () {
     if (
@@ -186,21 +206,4 @@ $(document).ready(function () {
     });
   });
 
-  $.get("/api/rule/all", { level: "short" }).done((res) => {
-    if (res) {
-      // console.log(res.rules);
-      $("select.multiple-select").select2({
-        maximumSelectionLength: res.rules.MaxNumberStudentsPerClass,
-        width: "resolve",
-        closeOnSelect: false,
-      });
-    } else {
-      console.log("error...ajax");
-      $("select.multiple-select").select2({
-        maximumSelectionLength: 40,
-        width: "resolve",
-        closeOnSelect: false,
-      });
-    }
-  });
 });

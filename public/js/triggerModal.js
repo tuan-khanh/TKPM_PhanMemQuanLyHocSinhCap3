@@ -11,7 +11,6 @@ $(document).ready(function() {
          closeStyle: "circle",
       }).then(async (e) => {
          if(e == 'confirm') {
-            // const objectName = $(`#${$(this).attr("data-id")}-name`).text();
             $.post($(this).attr("action"))
             .done((res) => {
                if(res.success) {
@@ -22,16 +21,14 @@ $(document).ready(function() {
                      closeStyle: "circle",
                   }).then(async () => {
                      window.location.reload();
-                  } )
+                  })
                } else {
                   cuteAlert({
                      type: "error",
                      title: "Thất bại",
                      message: `Không thể xóa "${objectName}"`,
                      closeStyle: "circle",
-                  }).then(async () => {
-                     // window.location.reload();
-                  } )
+                  })
                }
             })
          } else {
