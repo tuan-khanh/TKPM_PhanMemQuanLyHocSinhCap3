@@ -27,8 +27,18 @@ exports.getAll = async (req, res, next) => {
     });
     rules = rules.data.rules
     // res.json(rules);
+    
     if(rules) {
+        for(let rule of rules) {
+            if(rule.KieuDuLieu === "float") {
+                rule.isFloat = true;
+            } else {
+                rule.isFloat = false;
+            }
+        }
+        
         res.render("rule/default", {
+            title: "Quản lý quy định",
             layout: "general",
             rules,
         })
@@ -46,12 +56,14 @@ exports.update = async (req, res, next) => {
         if(existedRule.GiaTri != newRule.GiaTri) {
             await RuleModel.updateOneRule(newRule);
             return res.status(200).json({
-                message: "Update Rule successfully",
+                message: "Updated Rule successfully",
+                status: 200,
             })
         }
     }
 
     return res.status(400).json({
-        message: "Update Rule Unsuccessfully",
+        message: "Updating Rule is Failed",
+        status: 400,
     })
 };

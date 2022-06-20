@@ -6,7 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    <link rel="shortcut icon" href="https://cdn-icons.flaticon.com/png/128/1799/premium/1799906.png?token=exp=1655665094~hmac=59c164897d56b82ed5252bf71d7dca47" type="image/x-icon">
     <link rel="stylesheet" href="/css/style.css">
+
+    {{!-- BOOTSTRAP 4 + jQuery --}}
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/jquery-3.6.0.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
@@ -19,17 +22,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
+    
+    {{!-- DATATABLE LIBRARY --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
+    {{!-- MODIFY SELECT TAG --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     {{!-- LOADING --}}
     <link rel="stylesheet" href="/css/loading.css" />
     <script src="/js/loading.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="/js/triggerModal.js"></script>
+    
+    {{!-- ALERT --}}
+    <link rel="stylesheet" href="/css/cute-alert.css">
+
+    {{!-- VALIDATION --}}
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+    <script src="https://unpkg.com/just-validate-plugin-date@latest/dist/just-validate-plugin-date.production.min.js"></script>
 </head>
 
 <body>
@@ -48,7 +62,8 @@
         <header>
             <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
                 <a class="navbar-brand font-weight-bold " href="/">
-                    Quản lý học sinh THPT
+                    <img src="https://cdn-icons.flaticon.com/png/128/1799/premium/1799906.png?token=exp=1655665094~hmac=59c164897d56b82ed5252bf71d7dca47" width="30" height="30" alt="">
+                    Trường THPT
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-menu"
                     aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,8 +71,8 @@
                 </button>
                 <div class="collapse navbar-collapse ml-auto" id="sidebar-menu">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item dropdown">
-                            <a class="rounded nav-link  dropdown-toggle" href="#" id="Student-Menu" role="button"
+                        <li class="nav-item dropdown d-md-flex align-items-center">
+                            <a class="rounded text-center nav-link font-weight-bold  dropdown-toggle" href="#" id="Student-Menu" role="button"
                                 data-toggle="dropdown" aria-expanded="false">
                                 Học sinh
                             </a>
@@ -66,8 +81,8 @@
                                 <a class="dropdown-item" href="/student/all">Danh sách học sinh</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="rounded  nav-link dropdown-toggle" href="#" id="Class-Menu" role="button"
+                        <li class="nav-item dropdown d-md-flex align-items-center">
+                            <a class="rounded text-center nav-link font-weight-bold dropdown-toggle" href="#" id="Class-Menu" role="button"
                                 data-toggle="dropdown" aria-expanded="false">
                                 Lớp
                             </a>
@@ -76,8 +91,8 @@
                                 <a class="dropdown-item" href="/class/all">Danh sách lớp học</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="rounded  nav-link dropdown-toggle" href="#" id="Class-Menu" role="button"
+                        <li class="nav-item dropdown d-md-flex align-items-center">
+                            <a class="rounded text-center  nav-link font-weight-bold dropdown-toggle" href="#" id="Class-Menu" role="button"
                                 data-toggle="dropdown" aria-expanded="false">
                                 Môn học
                             </a>
@@ -88,10 +103,10 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="rounded nav-link" href="/transcript">Bảng điểm <span class="sr-only">(current)</span></a>
+                            <a class="rounded text-center nav-link font-weight-bold" href="/transcript">Bảng điểm <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="rounded  nav-link dropdown-toggle" href="#" id="Report-Menu" role="button"
+                        <li class="nav-item dropdown d-md-flex align-items-center">
+                            <a class="rounded text-center nav-link font-weight-bold dropdown-toggle" href="#" id="Report-Menu" role="button"
                                 data-toggle="dropdown" aria-expanded="false">
                                 Báo cáo
                             </a>
@@ -101,20 +116,21 @@
                             </div>
                         </li>
                         <li class="nav-item ">
-                            <a class="rounded nav-link" href="/rule">Quy định <span class="sr-only">(current)</span></a>
+                            <a class="rounded text-center nav-link font-weight-bold" href="/rule">Quy định <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="rounded nav-link d-md-none" href="#">Tài khoản <span
+                            <a class="rounded text-center nav-link font-weight-bold d-md-none" href="#">Tài khoản <span
                                     class="sr-only">(current)</span></a>
-                            <a class="rounded nav-link d-md-none" href="#">Đăng xuất <span
+                            <a class="rounded text-center nav-link font-weight-bold d-md-none" href="#">Đăng xuất <span
                                     class="sr-only">(current)</span></a>
                         </li>
 
                     </ul>
                     <div class="nav-item dropdown d-none d-md-block">
-                        <a class="rounded nav-link text-white dropdown-toggle" href="#" id="User-Menu" role="button"
+                        <a class="rounded text-center font-weight-bold text-white dropdown-toggle" href="#" id="User-Menu" role="button"
                             data-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
+                            {{!-- <i class="bi bi-person-circle"></i> --}}
+                            <img src="https://cdn-icons.flaticon.com/png/128/2202/premium/2202112.png?token=exp=1655666252~hmac=26d4259dece96f045bf881a0a96e6cae" alt="" srcset="" width="30" height="30">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="User-Menu">
                             <a class="dropdown-item" href="#">Tài khoản</a>
@@ -132,10 +148,52 @@
 
         {{{_sections.modal}}}
 
+
+        {{!-- DEFAULT FOOTER --}}
+        {{#section 'footer'}}
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <div class="row">
+                <div class="col-12 col-md text-center text-md-left">
+                    <img class="mb-2"
+                        src="https://cdn-icons.flaticon.com/png/128/1799/premium/1799906.png?token=exp=1655665094~hmac=59c164897d56b82ed5252bf71d7dca47"
+                        alt="">
+                </div>
+                <div class="col-6 col-md text-center text-md-left">
+                    <h5>Tính năng</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" href="/student/all">Quản lý học sinh</a></li>
+                        <li><a class="text-muted" href="/class/all">Quản lý lớp học</a></li>
+                        <li><a class="text-muted" href="/subject/all">Quản lý môn học</a></li>
+                        <li><a class="text-muted" href="/transcript">Tra cứu điểm</a></li>
+                        <li><a class="text-muted" href="/report/subject">Lập báo cáo môn học</a></li>
+                        <li><a class="text-muted" href="/report/term">Lập báo cáo học kỳ</a></li>
+                        <li><a class="text-muted" href="/rule/all">Quản lý các quy định</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md text-center text-md-left">
+                    <h5>Giới thiệu</h5>
+                    <p class="text-muted text-justify">
+                        Đây là ứng dụng quản lý học sinh cấp 3. Mô hình sử dụng: MVC. Ngôn ngữ: NodeJS (ExpressJS).
+                    </p>
+                </div>
+                <div class="col-12 col-md row align-self-center pr-0">
+                        <a class="col text-center text-md-left" href="#"><i class="bi-facebook" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+                        <a class="col text-center text-md-left" href="#"><i class="bi-github" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+                        <a class="col text-center text-md-left" href="#"><i class="bi-google" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+                        <a class="col text-center text-md-left" href="#"><i class="bi-linkedin" style="font-size: 2rem; color: cornflowerblue;"></i></a>
+                </div>
+            </div>
+            <div class="row justify-content-center copyright">
+                    <p class="d-block mb-3 text-muted">Nguyễn Tuấn Khanh © 2022</p>
+            </div>
+        </footer>
+        {{/section}}
+
         <!-- DEFINE A 'footer' SECTION -->
         {{{_sections.footer}}}
     </div>
 </body>
+<script type="text/javascript" src="/js/cute-alert.js"></script>
+<script type="text/javascript" src="/js/validate.js"></script>
 <script src="/js/main.js" type="text/javascript"></script>
-
 </html>

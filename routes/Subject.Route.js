@@ -2,6 +2,9 @@ const router = require('express').Router();
 const SubjectController = require('../controllers/Subject.Controller')
 
 
+// GET /subject
+router.get('/', SubjectController.default)
+
 // GET /subject/all
 router.get('/all', SubjectController.getAll)
 

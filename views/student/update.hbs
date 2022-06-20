@@ -1,30 +1,29 @@
 <main class="main-content" style="margin-top: 80px">
-    <h3 class="align-center">Cập nhật thông tin học sinh</h3>
+    <h3 class="text-center mt-5 pt-3 text-capitalize font-weight-bold">Cập nhật thông tin học sinh</h3>
     {{#if student}}
-    <form class="mx-auto mt-3" action="/student/{{student.MaSo}}?_method=PUT" method="POST" style="max-width: 500px">
+    <form class="mx-auto mt-3" action="/student/{{student.ID}}?_method=PUT" method="POST" style="max-width: 500px">
         <div class="form-row mb-2">
             <div class="col">
                 <label for="studentId-input">Mã HS</label>
                 <input type="text" class="form-control" id="studentId-input" name="MaSo" value="{{student.MaSo}}"
-                    required readonly>
+                     readonly>
             </div>
         </div>
 
         <div class="form-row mb-2">
             <div class="col">
                 <label for="name-input">Họ tên</label>
-                <input type="text" class="form-control" id="name-input" name="HoTen" value="{{student.HoTen}}" required>
+                <input type="text" class="form-control" id="name-input" name="HoTen" value="{{student.HoTen}}" >
             </div>
         </div>
         <div class="form-row mb-2">
             <div class="col-md-6">
                 <label for="birthday-input">Ngày sinh</label>
-                <input type="date" class="form-control" id="birthday-input" name="NgaySinh" value="{{student.NgaySinh}}"
-                    required>
+                <input type="date" class="form-control" id="birthday-input" name="NgaySinh" value="{{student.NgaySinh}}"  min="01/01/2002" max="01/01/2007">
             </div>
             <div class="col-md-6">
                 <label for="gender-input">Giới tính</label>
-                <select class="custom-select" id="gender-input" name="GioiTinh" required>
+                <select class="custom-select" id="gender-input" name="GioiTinh" >
                     {{#ifCond student.GioiTinh "===" 1}}
                     <option value="1" selected>Nam</option>
                     <option value="0">Nữ</option>
@@ -41,7 +40,7 @@
             <div class="col">
                 <label for="address-input">Địa chỉ</label>
                 <input type="text" class="form-control" id="address-input" name="DiaChi" value="{{student.DiaChi}}"
-                    required>
+                    >
             </div>
         </div>
 
@@ -49,7 +48,7 @@
             <div class="col">
                 <label for="email-input">Email</label>
                 <input type="email" class="form-control" id="email-input" name="Email" value="{{student.Email}}"
-                    required>
+                    >
             </div>
         </div>
 

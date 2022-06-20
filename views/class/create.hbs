@@ -1,10 +1,10 @@
 <main class="main-content" style="margin-top: 80px">
-    <h3 class="align-center">Lập danh sách lớp</h3>
+    <h3 class="text-center mt-5 pt-3 text-capitalize font-weight-bold">Lập danh sách lớp</h3>
     <form class="mx-auto mt-3" action="/class/create" method="POST">
         <div class="form-row mb-2">
             <div class="col-12 col-md">
                 <label for="grade-input">Lớp</label>
-                <select class="custom-select" id="grade-input" name="Khoi" required>
+                <select class="custom-select" id="grade-input" class="grade-input" name="Khoi">
                     <option selected disabled value="">Chọn Khối</option>
                     <option  value="10">10</option>
                     <option  value="10">11</option>
@@ -12,16 +12,15 @@
                 </select>
             </div>
             <div class="col-12 col-md">
-                <label for="class-input">Tên lớp</label>
-                <input type="text" class="form-control" id="class-input" name="Ten" required>
+                <label for="class-name-input">Tên lớp</label>
+                <input type="text" class="form-control" id="class-name-input" name="Ten" >
             </div>
         </div>
 
         <div class="form-row mb-2">
             <div class="col">
                 <label for="students-input">Học sinh</label>
-                <select id="students-input" class="multiple-select custom-select" name="students" multiple="multiple"  style="width: 100%"
-                    required></select>
+                <select id="students-input" class="multiple-select custom-select" name="students" multiple="multiple"  style="width: 100%"></select>
             </div>
         </div>
 

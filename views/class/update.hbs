@@ -1,16 +1,16 @@
 <main class="main-content" style="margin-top: 80px">
-    <h3 class="align-center">Cập danh sách lớp {{class.Ten}}</h3>
+    <h3 class="text-center mt-5 pt-3 text-capitalize font-weight-bold" >Cập nhật danh sách lớp {{class.Ten}}</h3>
     <form class="mx-auto mt-3" action="/class/{{class.ID}}?_method=PUT" method="POST">
-        <div class="form-row mb-2">
-            <label for="class-input" class="col-sm-2 col-form-label">Lớp</label>
-            <div class="col-sm-10">
-                <input type="text" disabled class="form-control-plaintext font-weight-bold" name="class" id="class-input" value="{{class.Ten}}">
+        <div class="form-row mb-2 align-items-center">
+            <label for="class-name-input" class="col-12 col-sm-1 col-form-label font-weight-bold">Lớp</label>
+            <div class="col-12 col-sm-11">
+                <input type="text" class="px-2 w-100" name="class_name" id="class-name-input" value="{{class.Ten}}">
             </div>
         </div>
 
         <div class="form-row mb-2">
             <div class="col">
-                <label for="students-input">Học sinh</label>
+                <label for="students-input" class="font-weight-bold text-capitalize">Danh sách học sinh</label>
                 <select id="students-input" class="multiple-select custom-select" name="students" multiple="multiple"  style="width: 100%">
                     {{#each students}}
                         <option value="{{this.ID}}" selected>{{this.MaSo}} - {{this.HoTen}}</option>

@@ -12,14 +12,26 @@ const connection = {
 
 const db = pgp(connection);
 
-exports.selectAll = async (TableName, FieldName, Value) => {
+exports.selectAll = async (TableName, FieldName, Value, orderByField, desc = true) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   if(FieldName && Value) {
-    var query = pgp.as.format(`SELECT * from $1 where "${FieldName}" = '${Value}'`, table);
+    if(orderByField) {
+      var query = pgp.as.format(`SELECT * FROM $1 WHERE "${FieldName}" = '${Value}' ORDER BY "${orderByField}" ${desc ? 'DESC' : 'ASC'}`, table);
+    } else {
+      var query = pgp.as.format(`SELECT * FROM $1 WHERE "${FieldName}" = '${Value}'`, table);
+    }
   } else if(FieldName && Value == null) {
-    var query = pgp.as.format(`SELECT * from $1 where "${FieldName}" IS NULL`, table);
+    if(orderByField) {
+      var query = pgp.as.format(`SELECT * FROM $1 WHERE "${FieldName}" IS NULL ORDER BY "${orderByField}" ${desc ? 'DESC' : 'ASC'}`, table);
+    } else {
+      var query = pgp.as.format(`SELECT * FROM $1 WHERE "${FieldName}" IS NULL`, table);
+    }
   } else {
-    var query = pgp.as.format("SELECT * from $1", table);
+    if(orderByField) {
+      var query = pgp.as.format(`SELECT * FROM $1  ORDER BY "${orderByField}" ${desc ? 'DESC' : 'ASC'}`, table);
+    } else {
+      var query = pgp.as.format("SELECT * FROM $1", table);
+    }
   }
   // console.log(query);
   try {
@@ -40,7 +52,7 @@ exports.selectAllByMultipleConditions = async (TableName, Fields, Values) => {
       where += " AND ";
     }
   }
-  var query = pgp.as.format('SELECT * from $1 WHERE $2:raw', [table, where]);
+  var query = pgp.as.format('SELECT * FROM $1 WHERE $2:raw', [table, where]);
   // console.log(query);
   try {
     const res = await db.any(query);
@@ -52,7 +64,7 @@ exports.selectAllByMultipleConditions = async (TableName, Fields, Values) => {
 
 exports.selectOne = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
-  const query = pgp.as.format(`SELECT * from $1 where "${FieldName}" = '${Value}'`, table);
+  const query = pgp.as.format(`SELECT * FROM $1 where "${FieldName}" = '${Value}'`, table);
   try {
     const res = await db.any(query);
     return res[0];
@@ -75,7 +87,7 @@ exports.save = async (TableName, Object) => {
 
 exports.updateAll = async (TableName, FieldId, id, NewObject) => {
   tmpEntity = JSON.parse(JSON.stringify(NewObject));
-  if (tmpEntity.f_ID != null) delete tmpEntity.f_ID;
+  if (tmpEntity.ID != null) delete tmpEntity.ID;
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
   const condition = pgp.as.format(` WHERE "${FieldId}" = '${id}'`, tmpEntity);
   const queryStr = pgp.helpers.update(tmpEntity, null, table) + condition;
@@ -107,7 +119,7 @@ exports.update = async (TableName, FieldId, id, updatedField, newValue) => {
 
 exports.delete = async (TableName, FieldName, Value) => {
   const table = new pgp.helpers.TableName({ table: TableName, schema: schema });
-  const queryStr = pgp.as.format(`DELETE from $1 where "${FieldName}" = ${Value}`, table);
+  const queryStr = pgp.as.format(`DELETE FROM $1 where "${FieldName}" = ${Value}`, table);
   console.log(queryStr);
   try {
     const res = await db.result(queryStr);

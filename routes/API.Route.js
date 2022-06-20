@@ -2,7 +2,6 @@ const router = require('express').Router();
 const StudentModel = require('../models/Student.Model')
 const ClassModel = require('../models/Class.Model')
 const SubjectModel = require('../models/Subject.Model');
-const Transcript = require('../models/Transcript.Model');
 const TranscriptModel = require('../models/Transcript.Model');
 const RuleModel = require('../models/Rule.Model');
 
@@ -12,6 +11,21 @@ router.get('/student/available/all', async (req, res) => {
     res.status(200).json({
         students: students,
     });
+})
+// GET api/student/all
+router.get('/student/all', async (req, res) => {
+    const students = await StudentModel.selectAllStudents();
+    if(students.length) {
+        return res.status(200).json({
+            success: true,
+            message: "GET ALL STUDENTS SUCCESSFULLY",
+            students: students,
+        })
+    }
+    return res.status(404).json({
+        success: false,
+        message: "No students were selected",
+    })
 })
 
 // GET api/class/all
@@ -43,9 +57,16 @@ router.get('/class/available/all', async (req, res) => {
 router.get('/subject/all', async (req, res) => {
     let availableSubjects = await SubjectModel.selectAllSubjects();
     if (availableSubjects) {
-        res.status(200).json({subjects: availableSubjects,});
+        res.status(200).json({
+            success: true,
+            subjects: availableSubjects,
+            message: "GET ALL AVAILABLE SUBBJECTS",
+        });
     } else {
-        res.send("Không còn môn học");
+        res.status(300).json({
+            success: false,
+            message: "NOT SUBBJECT FOUND",
+        });
     }
 })
 
@@ -91,6 +112,7 @@ router.get('/rule/all', async (req, res) => {
                 // console.table(specializedRules)
                 return res.status(200).json({
                     "rules": specializedRules,
+                    "status": 200,
                 })
             }
 
@@ -100,6 +122,7 @@ router.get('/rule/all', async (req, res) => {
                 }
                 return res.status(200).json({
                     "rules": rules,
+                    "status": 200,
                 })
             }
     }
@@ -130,9 +153,15 @@ router.put("/transcript/:id", async (req, res) => {
             console.log(newScores);
             await TranscriptModel.updateScores(currentScores);
         }
-        return res.status(200).json({message: "Thanh cong"})
+        return res.status(200).json({
+            message: "Thanh cong",
+            status: 200,
+        })
     }
-    return res.status(200).json({message: "That bai"})
+    return res.status(404).json({
+        message: "That bai",
+        status: 404,
+    })
 
 });
 
@@ -143,6 +172,7 @@ router.delete('/class/:id', async function(req, res) {
     if (students) {
       for (const student of students) {
         await StudentModel.updateClassOfStudent(student.ID, null);
+        await TranscriptModel.setDefaultTranscriptOfOneStudent(student.ID);
       }
     }
     res.status(200).json({message: "Successfully deleted"});

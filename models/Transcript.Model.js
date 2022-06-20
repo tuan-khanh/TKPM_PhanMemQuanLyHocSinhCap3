@@ -87,6 +87,9 @@ module.exports = {
             "HocKy": term,
             "MonHocID": subjectID,
             "HocSinhID": studentID,
+            "Diem15Phut": 0,
+            "Diem1Tiet": 0,
+            "DiemCuoiKy": 0,
         }
         return await db.save(tableName, row);
     },
@@ -103,7 +106,22 @@ module.exports = {
         return await db.delete(tableName, "HocSinhID", StudentID);
     },
 
+    deleteTranScriptOfOneSubject: async (SubjectID) => {
+        return await db.delete(tableName, "MonHocID", SubjectID);
+    },
+
     updateScores: async (newScore) => {
         return await db.updateAll(tableName, "ID",newScore.ID, newScore);
+    },
+
+    setDefaultTranscriptOfOneStudent: async (StudentID) => {
+        const allTranscript = await module.exports.selectTranscripByStudent(StudentID, false);
+        for(let record of allTranscript) {
+            record.Diem15Phut = 0;
+            record.Diem1Tiet = 0;
+            record.DiemCuoiKy = 0;
+            await module.exports.updateScores(record);
+        }
+        return;
     },
 };

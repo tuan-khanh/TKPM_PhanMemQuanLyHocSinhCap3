@@ -4,7 +4,7 @@ const tableName = "HocSinh";
 
 module.exports = {
     selectAllStudents: async () => {
-        return await db.selectAll(tableName);
+        return await db.selectAll(tableName, null, null, "MaSo", false);
     },
 
     selectOneStudentByID: async (ID) => {

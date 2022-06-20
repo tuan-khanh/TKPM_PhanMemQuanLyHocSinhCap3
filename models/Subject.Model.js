@@ -4,11 +4,15 @@ const tableName = "MonHoc";
 
 module.exports = {
     selectAllSubjects: async () => {
-        return await db.selectAll(tableName);
+        return await db.selectAll(tableName, null, null, "MaBM", false);
     },
 
     selectOneSubjectByID: async (SubjectID) => {
         return await db.selectOne(tableName, "ID", SubjectID)
+    },
+
+    selectSubjectBySubjectID: async (SubjectID) => {
+        return await db.selectOne(tableName, "MaBM", SubjectID);
     },
 
     selectAllSubjectByName: async (Name) => {
@@ -20,10 +24,10 @@ module.exports = {
     },
 
     deleteOneSubject: async (SubjectID) => {
-        return await db.delete(tableName, "MaBM", SubjectID);
+        return await db.delete(tableName, "ID", SubjectID);
     },
 
     updateOneSubject: async (subject) => {
-        return await db.updateAll(tableName, "MaBM",subject.MaBM, subject);
+        return await db.updateAll(tableName, "ID",subject.ID, subject);
     },
 };

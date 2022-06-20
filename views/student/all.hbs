@@ -1,32 +1,34 @@
 <main class="main-content" style="margin-top: 80px">
-    <h3 class="align-center">Danh sách học sinh</h3>
+    <h3 class="text-center mt-5 pt-3 text-capitalize font-weight-bold">Danh sách tất cả học sinh</h3>
     <div class="table-responsive-md my-3">
         <table id="table" class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">MSHS</th>
-                    <th scope="col">Họ tên</th>
-                    <th scope="col">Lớp</th>
-                    <th scope="col">TBHK1</th>
-                    <th scope="col">TBHK2</th>
+                    <th scope="col" class="text-center align-middle">#</th>
+                    <th scope="col" class="text-center align-middle">MSHS</th>
+                    <th scope="col" class="text-center align-middle">Họ tên</th>
+                    <th scope="col" class="text-center align-middle">Lớp</th>
+                    <th scope="col" class="text-center align-middle">TBHK1</th>
+                    <th scope="col" class="text-center align-middle">TBHK2</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {{#each students}}
                 <tr>
-                    <th scope="row">{{@index}}</th>
-                    <th>{{this.MaSo}}</th>
-                    <td>{{this.HoTen}}</td>
-                    <td>{{this.LopID}}</td>
-                    <td>{{this.DTBHK1}}</td>
-                    <td>{{this.DTBHK2}}</td>
+                    <th class="text-center align-middle" scope="row">{{@index}}</th>
+                    <td class="text-center align-middle">{{this.MaSo}}</td>
+                    <td id="{{this.ID}}-name" class="align-middle">{{this.HoTen}}</td>
+                    <td class="text-center align-middle">{{this.Lop}}</td>
+                    <td class="text-center align-middle">{{this.DTBHK1}}</td>
+                    <td class="text-center align-middle">{{this.DTBHK2}}</td>
                     <td class="d-flex flex-column flex-lg-row justify-content-around ">
-                        <a href="/student/update/{{this.ID}}" class="m-1 btn btn-success"><i
-                                class="bi bi-pencil-fill"></i></a>
-                        <a data-toggle="modal" data-id="{{this.ID}}" href="#deleteModal" class="m-1 btn btn-danger"><i
-                                class="bi bi-trash3-fill"></i></a>
+                        <a href="/student/update/{{this.ID}}" class="m-1 btn btn-success">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <a data-toggle="modal" data-id="{{this.ID}}" action="/student/{{this.ID}}?_method=DELETE" href="#deleteModal" class="m-1 btn btn-danger">
+                            <i class="bi bi-trash3-fill"></i>
+                        </a>
                     </td>
                 </tr>
                 {{/each}}
@@ -35,27 +37,3 @@
         </table>
     </div>
 </main>
-
-{{#section 'modal'}}
-{{!-- Delete Modal --}}
-<!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <form class="modal-dialog modal-dialog-centered" action="/student" method="post">
-        <div class=" modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Xóa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Bạn có chắc muốn xóa ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
-                <button type="submit" class="btn btn-danger">Có</button>
-            </div>
-    </form>
-</div>
-
-{{/section}}

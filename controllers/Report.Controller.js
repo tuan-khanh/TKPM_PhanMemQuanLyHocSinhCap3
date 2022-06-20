@@ -12,11 +12,14 @@ exports.subject = async (req, res, next) => {
             report,
             subject: (await SubjectModel.selectOneSubjectByID(req.query.subject)).Ten,
             term: req.query.term,
+            title: "Báo cáo môn học",
+
         });
     }
     return res.render("reports/subject_report", {
         layout: "general",
         flag: Object.keys(req.query).length == 0,
+        title: "Báo cáo môn học",
     });
 };
 
@@ -28,11 +31,13 @@ exports.term = async (req, res, next) => {
             flag: Object.keys(req.query).length == 0,
             report,
             term: req.query.term,
+            title: "Báo cáo học kỳ",
         });
     }
 
     return res.render("reports/term_report", {
         layout: "general",
         flag: Object.keys(req.query).length == 0,
+        title: "Báo cáo học kỳ",
     });
 };

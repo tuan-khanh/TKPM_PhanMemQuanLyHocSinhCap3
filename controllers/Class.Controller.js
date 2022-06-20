@@ -16,7 +16,7 @@ exports.getAll = async function (req, res, next) {
     }
   }
   res.render("class/all", {
-    title: "All classes",
+    title: "Quản lý lớp học",
     layout: "general",
     classes: classes,
   });
@@ -42,7 +42,7 @@ exports.getOneClass = async function (req, res, next) {
 
 exports.getCreateForm = (req, res, next) => {
   res.render("class/create", {
-    title: "Lập danh sách lớp",
+    title: "Quản lý lớp học",
     layout: "general",
   });
 };
@@ -85,22 +85,54 @@ exports.create = async function (req, res, next) {
 };
 
 exports.update = async function (req, res, next) {
-  const ClassID = req.params.id;
+  const Class = {
+    "ID":  req.params.id,
+    "Ten": req.body.class_name,
+  }
+  const currentClass = await ClassModel.selectOneClassByID(req.params.id);
+  if (currentClass && currentClass.Ten != Class.Ten) {
+    await ClassModel.updateNameOfOneClass(Class);
+  }
+
   let studentIDs = req.body.students;
+  let rules = await axios.get(`http://localhost:${process.env.PORT}/api/rule/all`, {params: {level: "short"}})
+    .catch(function (error) {
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+    });
+  rules = rules.data.rules
+
   if (studentIDs) {
-    if (typeof studentIDs != "object") {
+    if (!Array.isArray(studentIDs)) {
       studentIDs = [studentIDs];
     }
-    const currentStudents = await StudentModel.selectAllStudentsByClass(ClassID);
+    if(studentIDs.length > rules.MaxNumberStudentsPerClass) {
+      studentIDs = studentIDs.slice(0, rules.MaxNumberStudentsPerClass);
+    }
+    const currentStudents = await StudentModel.selectAllStudentsByClass(Class.ID);
 
     if (currentStudents.length) {
-      console.log("Lop da co hoc sinh")
+      // console.log("Lop da co hoc sinh")
 
       // get new student
       for (const ID of studentIDs) {
         let existed = currentStudents.filter((s) => s.ID == ID);
         if (!existed.length) {
-          await StudentModel.updateClassOfStudent(ID, ClassID);
+          await StudentModel.updateClassOfStudent(ID, Class.ID);
         }
       }
 
@@ -109,16 +141,17 @@ exports.update = async function (req, res, next) {
         let existed = studentIDs.filter((id) => id == student.ID);
         if (!existed.length) {
           await StudentModel.updateClassOfStudent(student.ID, null);
+          await TranscriptModel.setDefaultTranscriptOfOneStudent(student.ID);
         }
       }
     } else {
       console.log("Lop chua co hoc sinh")
       for (const studentID of studentIDs) {
-        await StudentModel.updateClassOfStudent(studentID, ClassID);
+        await StudentModel.updateClassOfStudent(studentID, Class.ID);
       }
     }
   } else {
-    const response = await axios.delete(`http://localhost:${process.env.PORT}/api/class/${ClassID}`)
+    const response = await axios.delete(`http://localhost:${process.env.PORT}/api/class/${Class.ID}`)
       .catch(function (error) {
           if (error.response) {
               // The request was made and the server responded with a status code
@@ -139,23 +172,33 @@ exports.update = async function (req, res, next) {
       });
   }
 
-  return res.redirect(`/class/${ClassID}`);
+  return res.redirect(`/class/${Class.ID}`);
 };
 
 exports.delete = async function (req, res, next) {
   const ClassID = req.params.id;
-  let students = await StudentModel.selectAllStudentsByClass(ClassID);
-  console.table(students)
-  try {
-    if (students.length) {
-      for (const student of students) {
-        await StudentModel.updateClassOfStudent(student.ID, null);
+  const currentClass = await ClassModel.selectOneClassByID(ClassID);
+  if(currentClass) {
+    let students = await StudentModel.selectAllStudentsByClass(ClassID);
+    console.table(students)
+    try {
+      if (students.length) {
+        for (const student of students) {
+          await StudentModel.updateClassOfStudent(student.ID, null);
+          await TranscriptModel.setDefaultTranscriptOfOneStudent(student.ID);
+        }
       }
+    } finally {
+      // console.log("DELETE CLASS");
+      await ClassModel.deleteOneClass(ClassID);
+      return res.status(200).json({
+        success: true,
+        message: "Class is deleted successfully",
+      })
     }
-  } finally {
-    console.log("DELETE CLASS");
-    await ClassModel.deleteOneClass(ClassID);
   }
-
-  res.redirect("/class/all");
+  res.status(300).json({
+    success: false,
+    message: "Class is not found",
+  })
 };

@@ -4,7 +4,7 @@ const tableName = "Lop";
 
 module.exports = {
     selectAllClasses: async () => {
-        return await db.selectAll(tableName);
+        return await db.selectAll(tableName, null, null, "Ten", false);
     },
 
     selectOneClassByID: async (ClassID) => {
@@ -24,7 +24,11 @@ module.exports = {
     },
 
     updateOneClass: async (Class) => {
-        return await db.update(tableName, "ID",Class.ID, Class);
+        return await db.updateAll(tableName, "ID",Class.ID, Class);
+    },
+
+    updateNameOfOneClass: async (newClass) => {
+        return await db.update(tableName, "ID",newClass.ID, "Ten", newClass.Ten);
     }
 
 };

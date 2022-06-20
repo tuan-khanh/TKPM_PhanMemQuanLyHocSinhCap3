@@ -15,4 +15,10 @@ module.exports = function(app) {
   app.use("/transcript", TranscriptRouter);
   app.use("/report", ReportRouter);
   app.use("/rule", RuleRouter);
+  app.get('*', (req,res) => {
+    res.render("notification/404", {
+      title: "OOPS! Không tìm thấy trang",
+      layout: "general",
+    })
+  })
 };
