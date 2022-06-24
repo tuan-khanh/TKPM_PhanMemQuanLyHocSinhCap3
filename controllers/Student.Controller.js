@@ -15,10 +15,15 @@ exports.getAll = async (req, res, next) => {
   let students = await StudentModel.selectAllStudents();
   if (students) {
     for (let student of students) {
-      const shortTranscript = await TranscriptModel.selectTranscripByStudent(student.ID, true);
       student.Lop = student.LopID ? (await ClassModel.selectOneClassByID(student.LopID)).Ten : undefined;
-      student.DTBHK1 = shortTranscript.DTBHK1;
-      student.DTBHK2 = shortTranscript.DTBHK2;
+      if(student.Lop) {
+        const shortTranscript = await TranscriptModel.selectTranscripByStudent(student.ID, true);
+        student.DTBHK1 = shortTranscript.DTBHK1;
+        student.DTBHK2 = shortTranscript.DTBHK2;
+      } else {
+        student.DTBHK1 = 0;
+        student.DTBHK2 = 0;        
+      }
     }
   }
   res.status(200).render("student/all", {
