@@ -1,5 +1,12 @@
 # TKPM - PHẦN MỀM QUẢN LÝ HỌC SINH CẤP 3
-
+## Tổng quan
+Đây là phần mềm quản lý học sinh cấp 3 với các chức năng như sau:
+1. Tiếp nhận học sinh (Thêm | Xóa | Sửa).
+2. Lập danh sách lớp (Thêm | Xóa | Sửa).
+3. Tra cứu học sinh.
+4. Nhập bảng điểm môn.
+5. Lập báo cáo tổng kết (Học kỳ | Môn học).
+6. Thay đổi quy định.
 
 ## Phần mềm cài đặt
 1. IDE: Visual Studio Code.
