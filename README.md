@@ -9,7 +9,7 @@
 
 ## Tạo database
 1. Tạo database rỗng "QuanLyHocSinh".
-2. Restore với file script SQL "QuanLyHocSinhCap3.sql" trong folder "sql" ([linky](sql/QuanLyHocSinhCap3.sql#section))
+2. Restore với file script SQL (["QuanLyHocSinhCap3.sql"](sql/QuanLyHocSinhCap3.sql#section)) trong folder "sql"
 
 ## Run application
 1. Mở bẳng Visual Studio Code
